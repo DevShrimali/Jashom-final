@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import SplitHeading from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 const SERVICES = [
   {
@@ -23,8 +24,13 @@ const SERVICES = [
   },
 ];
 
-/* Animated SVG: GPU die schematic with line-draw on scroll */
-function ServiceVisual({ variant }: { variant: 0 | 1 }) {
+const INK = "#18181c";
+const GRAY = "#9b9994";
+const TINT = "#eceae4";
+
+/* GPU Optimization — a performance gauge sweeping toward maximum,
+   throughput streaks accelerating underneath. Reads as "faster" in one glance. */
+function GaugeVisual() {
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -32,68 +38,174 @@ function ServiceVisual({ variant }: { variant: 0 | 1 }) {
     if (!svg) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const paths = svg.querySelectorAll<SVGPathElement | SVGRectElement>("[data-draw]");
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: svg, start: "top 80%", once: true },
-        onComplete: () => {
-          // Micro loops once drawn: connector lines carry a slow data
-          // stream, the center node pulses.
-          svg.querySelectorAll("[data-flow]").forEach((p) => {
-            gsap.set(p, { strokeDasharray: "3 6", strokeDashoffset: 0 });
-            gsap.to(p, { strokeDashoffset: -27, duration: 3, repeat: -1, ease: "none" });
-          });
-          gsap.to(svg.querySelector("[data-pulse]"), {
-            attr: { r: 4.5 },
-            opacity: 0.45,
-            duration: 1.3,
-            yoyo: true,
-            repeat: -1,
-            ease: "sine.inOut",
-          });
-        },
-      });
-      paths.forEach((p, i) => {
-        const len = (p as SVGGeometryElement).getTotalLength?.() ?? 600;
-        tl.fromTo(
-          p,
-          { strokeDasharray: len, strokeDashoffset: len },
-          { strokeDashoffset: 0, duration: 1.6, ease: "expo.out" },
-          i * 0.1
-        );
+      // Needle sweeps up quickly, eases back, repeats
+      gsap.fromTo(
+        ".gauge-needle",
+        { rotation: -78, svgOrigin: "200 190" },
+        {
+          rotation: 72,
+          duration: 2.2,
+          ease: "power3.inOut",
+          yoyo: true,
+          repeat: -1,
+          repeatDelay: 0.5,
+          scrollTrigger: { trigger: svg, start: "top 80%", once: true },
+        }
+      );
+      // Progress arc follows the needle
+      gsap.fromTo(
+        ".gauge-arc",
+        { strokeDashoffset: 408 },
+        {
+          strokeDashoffset: 75,
+          duration: 2.2,
+          ease: "power3.inOut",
+          yoyo: true,
+          repeat: -1,
+          repeatDelay: 0.5,
+          scrollTrigger: { trigger: svg, start: "top 80%", once: true },
+        }
+      );
+      // Throughput streaks flow right
+      gsap.to(".gauge-streak", {
+        strokeDashoffset: -36,
+        duration: 1.4,
+        repeat: -1,
+        ease: "none",
       });
     }, svg);
     return () => ctx.revert();
   }, []);
 
   return (
-    <svg
-      ref={ref}
-      viewBox="0 0 400 300"
-      className="w-full h-auto"
-      fill="none"
-      aria-hidden="true"
-    >
-      <rect x="100" y="70" width="200" height="160" rx="8" stroke="#18181c" strokeWidth="1.5" data-draw />
-      <rect x="135" y="105" width="130" height="90" rx="4" stroke="#18181c" strokeWidth="1" data-draw />
-      {variant === 0 ? (
-        <>
-          {[125, 150, 175].map((y) => (
-            <path key={y} d={`M150 ${y} H250`} stroke="#9b9994" strokeWidth="1" data-draw />
-          ))}
-          <path d="M20 110 H100 M20 150 H100 M20 190 H100" stroke="#9b9994" strokeWidth="1" data-draw data-flow />
-          <path d="M300 110 H380 M300 150 H380 M300 190 H380" stroke="#9b9994" strokeWidth="1" data-draw data-flow />
-        </>
-      ) : (
-        <>
-          {[150, 175, 200, 225].map((x) => (
-            <path key={x} d={`M${x} 120 V180`} stroke="#9b9994" strokeWidth="1" data-draw />
-          ))}
-          <path d="M140 40 V70 M200 40 V70 M260 40 V70" stroke="#9b9994" strokeWidth="1" data-draw data-flow />
-          <path d="M140 230 V260 M200 230 V260 M260 230 V260" stroke="#9b9994" strokeWidth="1" data-draw data-flow />
-        </>
+    <svg ref={ref} viewBox="0 0 400 300" className="w-full h-auto" fill="none" aria-hidden="true">
+      {/* tick marks */}
+      {Array.from({ length: 13 }, (_, i) => {
+        const t = Math.PI * (1 - i / 12);
+        const major = i % 3 === 0;
+        const r1 = major ? 112 : 120;
+        // toFixed keeps SSR/client markup identical (raw trig differs by 1 ULP)
+        const x1 = (200 + Math.cos(t) * r1).toFixed(2);
+        const y1 = (190 - Math.sin(t) * r1).toFixed(2);
+        const x2 = (200 + Math.cos(t) * 130).toFixed(2);
+        const y2 = (190 - Math.sin(t) * 130).toFixed(2);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={major ? INK : GRAY} strokeWidth={major ? 1.6 : 1} />;
+      })}
+      {/* track + progress arc */}
+      <path d="M70 190 A130 130 0 0 1 330 190" stroke={TINT} strokeWidth="7" strokeLinecap="round" />
+      <path
+        className="gauge-arc"
+        d="M70 190 A130 130 0 0 1 330 190"
+        stroke={INK}
+        strokeWidth="7"
+        strokeLinecap="round"
+        strokeDasharray="408"
+        strokeDashoffset="408"
+      />
+      {/* needle */}
+      <g className="gauge-needle">
+        <line x1="200" y1="190" x2="200" y2="92" stroke={INK} strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="200" cy="190" r="7" fill={INK} />
+        <circle cx="200" cy="190" r="2.5" fill="#f4f3ef" />
+      </g>
+      {/* throughput streaks */}
+      {[232, 250, 268].map((y, i) => (
+        <line
+          key={y}
+          className="gauge-streak"
+          x1={70 + i * 24}
+          y1={y}
+          x2={330 - i * 24}
+          y2={y}
+          stroke={GRAY}
+          strokeWidth="1.4"
+          strokeDasharray="14 22"
+          strokeLinecap="round"
+        />
+      ))}
+    </svg>
+  );
+}
+
+/* CUDA Development — one block of code fanning out into a grid of cores
+   lighting up in parallel. Reads as "code becomes parallel compute". */
+function ParallelVisual() {
+  const ref = useRef<SVGSVGElement>(null);
+
+  const rows = [0, 1, 2, 3];
+  const cols = [0, 1, 2, 3];
+  const coreX = (c: number) => 248 + c * 34;
+  const coreY = (r: number) => 84 + r * 34;
+  const branchD = (r: number) =>
+    `M132 150 C 180 150, 190 ${coreY(r) + 11}, 236 ${coreY(r) + 11}`;
+
+  useEffect(() => {
+    const svg = ref.current;
+    if (!svg) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      // Cores light up in a diagonal parallel wave
+      gsap.fromTo(
+        ".core-lit",
+        { opacity: 0.12 },
+        {
+          opacity: 1,
+          duration: 0.7,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+          stagger: { grid: [4, 4], from: "start", each: 0.12 },
+          scrollTrigger: { trigger: svg, start: "top 80%", once: true },
+        }
+      );
+      // Pulses travel from the code block along each branch
+      gsap.utils.toArray<SVGCircleElement>(".branch-pulse").forEach((dot, i) => {
+        gsap.to(dot, {
+          motionPath: { path: branchD(i), autoRotate: false },
+          duration: 1.5,
+          repeat: -1,
+          ease: "none",
+          delay: i * 0.35,
+        });
+        gsap.fromTo(
+          dot,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.3, repeat: -1, repeatDelay: 1.2, delay: i * 0.35 }
+        );
+      });
+    }, svg);
+    return () => ctx.revert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <svg ref={ref} viewBox="0 0 400 300" className="w-full h-auto" fill="none" aria-hidden="true">
+      {/* code block */}
+      <rect x="42" y="100" width="90" height="100" rx="8" stroke={INK} strokeWidth="1.5" />
+      <path d="M68 132 L58 141 L68 150" stroke={INK} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M86 132 L96 141 L86 150" stroke={INK} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="74" y1="152" x2="82" y2="130" stroke={INK} strokeWidth="1.4" strokeLinecap="round" />
+      <line x1="58" y1="168" x2="112" y2="168" stroke={GRAY} strokeWidth="1.2" />
+      <line x1="58" y1="182" x2="96" y2="182" stroke={GRAY} strokeWidth="1.2" />
+      {/* branches */}
+      {rows.map((r) => (
+        <path key={r} d={branchD(r)} stroke={GRAY} strokeWidth="1.1" />
+      ))}
+      {/* traveling pulses */}
+      {rows.map((r) => (
+        <circle key={r} className="branch-pulse" r="3" fill={INK} opacity="0" />
+      ))}
+      {/* core grid */}
+      {rows.map((r) =>
+        cols.map((c) => (
+          <g key={`${r}-${c}`}>
+            <rect x={coreX(c)} y={coreY(r)} width="22" height="22" rx="4" stroke={GRAY} strokeWidth="1" fill={TINT} />
+            <rect className="core-lit" x={coreX(c)} y={coreY(r)} width="22" height="22" rx="4" fill={INK} opacity="0.12" />
+          </g>
+        ))
       )}
-      <circle cx="200" cy="150" r="3" fill="#18181c" data-pulse />
     </svg>
   );
 }
@@ -141,7 +253,7 @@ export default function Services() {
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="bg-linen border border-line rounded-lg p-6 md:p-10">
-                  <ServiceVisual variant={(i % 2) as 0 | 1} />
+                  {i === 0 ? <GaugeVisual /> : <ParallelVisual />}
                 </div>
               </Reveal>
             </div>

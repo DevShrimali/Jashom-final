@@ -9,7 +9,7 @@ import Magnetic from "@/components/motion/Magnetic";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HEADLINE = ["Powering High-Performance AI", "with Precision", "GPU Engineering"];
+const HEADLINE = ["Powering High-Performance AI", "with Precision GPU Engineering"];
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -62,7 +62,7 @@ export default function Hero() {
           Next-Gen AI Solutions
         </motion.p>
 
-        <h1 className="text-[clamp(2.6rem,4.6vw,4.4rem)] leading-[1.04] max-w-[16ch]">
+        <h1 className="text-[clamp(2.2rem,3.5vw,3.3rem)] leading-[1.1] max-w-[32ch]">
           {HEADLINE.map((line, i) => (
             <span key={line} className="block overflow-clip">
               <motion.span

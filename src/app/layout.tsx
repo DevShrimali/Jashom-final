@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "Jashom Technologies — Precision GPU Engineering for High-Performance AI",
   description:
     "Expert NVIDIA GPU optimization and CUDA development services. Jashom helps organizations unlock maximum performance from their AI and machine learning workloads.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

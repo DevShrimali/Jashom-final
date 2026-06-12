@@ -1,5 +1,6 @@
 import SplitHeading from "@/components/motion/SplitHeading";
 import { Reveal, Stagger } from "@/components/motion/Reveal";
+import CardGlyph from "@/components/CardGlyph";
 
 const POSTS = [
   {
@@ -38,18 +39,19 @@ export default function Blog() {
         </div>
 
         <Stagger className="grid md:grid-cols-3 gap-5" step={0.07}>
-          {POSTS.map((p) => (
-            <a key={p.title} href="#blog" className="card-j group block p-7 h-full">
-              <p className="text-[0.8125rem] text-ink-3 mb-5">
+          {POSTS.map((p, i) => (
+            <a key={p.title} href="#blog" className="card-neon group block p-7 h-full">
+              <CardGlyph variant={(["doc", "wave", "memory"] as const)[i % 3]} />
+              <p className="neon-meta text-[0.8125rem] text-ink-3 mb-5">
                 {p.date} · {p.read}
               </p>
-              <h3 className="font-sans font-medium text-[1.125rem] leading-snug text-ink mb-3 group-hover:underline decoration-1 underline-offset-4">
+              <h3 className="font-sans font-medium text-[1.125rem] leading-snug text-ink mb-3 max-w-[26ch]">
                 {p.title}
               </h3>
               <p className="text-[0.9375rem] text-ink-2">{p.excerpt}</p>
-              <p className="mt-6 text-sm text-ink font-medium">
+              <p className="neon-cta mt-6 text-sm text-ink font-medium">
                 Read more
-                <span className="inline-block ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
+                <span className="inline-block ml-1 transition-transform duration-300 group-hover:translate-x-1">→</span>
               </p>
             </a>
           ))}

@@ -396,10 +396,11 @@ export default function HeroIllustration() {
         <ellipse cx={hsCenter[0]} cy={hsCenter[1]} rx="12" ry="6.9" fill={C.paper} stroke={C.ink} strokeWidth="1" />
         {Array.from({ length: 8 }, (_, i) => {
           const t = (i / 8) * Math.PI * 2;
-          const x1 = hsCenter[0] + Math.cos(t) * 13;
-          const y1 = hsCenter[1] + Math.sin(t) * 7.5;
-          const x2 = hsCenter[0] + Math.cos(t) * 32;
-          const y2 = hsCenter[1] + Math.sin(t) * 18.4;
+          // toFixed keeps SSR/client markup identical
+          const x1 = (hsCenter[0] + Math.cos(t) * 13).toFixed(2);
+          const y1 = (hsCenter[1] + Math.sin(t) * 7.5).toFixed(2);
+          const x2 = (hsCenter[0] + Math.cos(t) * 32).toFixed(2);
+          const y2 = (hsCenter[1] + Math.sin(t) * 18.4).toFixed(2);
           return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={C.gray} strokeWidth="0.9" />;
         })}
         {/* capacitors */}
@@ -455,10 +456,10 @@ export default function HeroIllustration() {
           return (
             <line
               key={i}
-              x1={discCenter[0] + Math.cos(t) * 14}
-              y1={discCenter[1] + Math.sin(t) * 8}
-              x2={discCenter[0] + Math.cos(t) * 45}
-              y2={discCenter[1] + Math.sin(t) * 26}
+              x1={(discCenter[0] + Math.cos(t) * 14).toFixed(2)}
+              y1={(discCenter[1] + Math.sin(t) * 8).toFixed(2)}
+              x2={(discCenter[0] + Math.cos(t) * 45).toFixed(2)}
+              y2={(discCenter[1] + Math.sin(t) * 26).toFixed(2)}
               stroke="#4a4a50"
               strokeWidth="1.2"
             />
