@@ -15,9 +15,11 @@ const eslintConfig = defineConfig([
   ]),
   // Allow plain <img> tags for SVG logos where Next.js Image wrapper
   // interferes with conditional src switching for theme toggling.
+  // Also allow standard mount-time setState inside useEffect for DOM reads.
   {
     rules: {
       "@next/next/no-img-element": "off",
+      "react-hooks/set-state-in-effect": "off",
     },
   },
 ]);
