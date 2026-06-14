@@ -88,7 +88,6 @@ export default function Footer() {
         <div className="grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-2 mb-4" aria-label="Jashom home">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={isDark ? "/logo/jashom-dark.svg" : "/logo/jashom-white.svg"}
                 alt="Jashom logo"

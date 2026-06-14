@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import Magnetic from "@/components/motion/Magnetic";
 
@@ -152,7 +151,6 @@ export default function Nav() {
     >
       <nav className="container-j flex items-center justify-between h-[68px]">
         <Link href="/" className="flex items-center gap-2" aria-label="Jashom home">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={isDark ? "/logo/jashom-dark.svg" : "/logo/jashom-white.svg"}
             alt="Jashom logo"
