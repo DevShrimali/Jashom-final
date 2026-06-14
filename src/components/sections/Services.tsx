@@ -24,9 +24,9 @@ const SERVICES = [
   },
 ];
 
-const INK = "#18181c";
-const GRAY = "#9b9994";
-const TINT = "#eceae4";
+const INK = "var(--svg-ink)";
+const GRAY = "var(--svg-gray)";
+const TINT = "var(--svg-tint)";
 
 /* GPU Optimization — a performance gauge sweeping toward maximum,
    throughput streaks accelerating underneath. Reads as "faster" in one glance. */
@@ -107,7 +107,7 @@ function GaugeVisual() {
       <g className="gauge-needle">
         <line x1="200" y1="190" x2="200" y2="92" stroke={INK} strokeWidth="2.4" strokeLinecap="round" />
         <circle cx="200" cy="190" r="7" fill={INK} />
-        <circle cx="200" cy="190" r="2.5" fill="#f4f3ef" />
+        <circle cx="200" cy="190" r="2.5" fill="#F7F7F4" />
       </g>
       {/* throughput streaks */}
       {[232, 250, 268].map((y, i) => (
@@ -215,7 +215,7 @@ export default function Services() {
     <section className="section bg-paper border-y border-line" id="services">
       <div className="container-j">
         <div className="max-w-2xl mb-16 md:mb-20">
-          <SplitHeading className="text-[clamp(2rem,4vw,3rem)] mb-5">
+          <SplitHeading className="text-[clamp(1.6rem,2.5vw,2.1rem)] mb-5">
             Which services we provide
           </SplitHeading>
           <Reveal>
@@ -236,7 +236,7 @@ export default function Services() {
             >
               <Reveal>
                 <div>
-                  <h3 className="text-[clamp(1.6rem,2.8vw,2.4rem)] mb-4">{s.title}</h3>
+                  <h3 className="text-[clamp(1.4rem,2.4vw,2rem)] mb-4">{s.title}</h3>
                   <p className="text-ink-2 mb-6 max-w-[55ch]">{s.body}</p>
                   <ul className="flex flex-col gap-2.5 mb-8">
                     {s.points.map((pt) => (
@@ -252,7 +252,7 @@ export default function Services() {
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <div className="bg-linen border border-line rounded-lg p-6 md:p-10">
+                <div className="bg-linen border border-line rounded-none p-6 md:p-10">
                   {i === 0 ? <GaugeVisual /> : <ParallelVisual />}
                 </div>
               </Reveal>

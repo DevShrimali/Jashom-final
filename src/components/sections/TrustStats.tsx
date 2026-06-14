@@ -15,7 +15,7 @@ export default function TrustStats() {
   return (
     <section className="section bg-carbon text-warmwhite overflow-clip" id="trust">
       <div className="container-j">
-        <SplitHeading className="text-[clamp(2rem,4vw,3rem)] text-warmwhite max-w-xl mb-14 md:mb-20">
+        <SplitHeading className="text-[clamp(1.6rem,2.5vw,2.1rem)] text-warmwhite max-w-xl mb-14 md:mb-20">
           Trusted by innovative teams worldwide
         </SplitHeading>
       </div>
@@ -46,7 +46,7 @@ export default function TrustStats() {
         <Stagger className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12" step={0.08}>
           {STATS.map((s) => (
             <div key={s.label}>
-              <p className="font-serif text-[clamp(2.75rem,5.5vw,4.5rem)] leading-none text-warmwhite">
+              <p className="font-mono text-[clamp(1.75rem,3.2vw,2.25rem)] leading-none text-warmwhite">
                 <Counter value={s.value} suffix={s.suffix} />
               </p>
               <p className="mt-3 text-[0.9375rem] text-darkink2">{s.label}</p>

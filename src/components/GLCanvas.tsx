@@ -101,7 +101,7 @@ type Props = {
 };
 
 export default function GLCanvas({
-  background = "#f4f3ef",
+  background = "#F7F7F4",
   lineColor = "#18181c",
   lineAlpha = 0.16,
   className,

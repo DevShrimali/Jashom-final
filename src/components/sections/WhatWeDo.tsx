@@ -16,11 +16,11 @@ const PILLARS = [
 
 export default function WhatWeDo() {
   return (
-    <section className="section" id="what-we-do">
+    <section className="section !pt-[calc(var(--section-pad)*0.7)]" id="what-we-do">
       <div className="container-j">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
           <div className="lg:col-span-4">
-            <SplitHeading className="text-[clamp(2rem,4vw,3rem)] sticky top-28">
+            <SplitHeading className="text-[clamp(1.6rem,2.5vw,2.1rem)] sticky top-28">
               What we do
             </SplitHeading>
           </div>
@@ -28,8 +28,8 @@ export default function WhatWeDo() {
             {PILLARS.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.08}>
                 <article className={`py-10 ${i === 0 ? "border-b border-line" : ""}`}>
-                  <div className="flex flex-wrap items-baseline justify-between gap-3 mb-4">
-                    <h3 className="text-[clamp(1.6rem,2.6vw,2.25rem)]">{p.title}</h3>
+                   <div className="flex flex-wrap items-baseline justify-between gap-3 mb-4">
+                    <h3 className="text-[clamp(1.4rem,2.2vw,1.85rem)]">{p.title}</h3>
                     <span className="text-[0.75rem] uppercase tracking-wide text-ink-2 bg-tint rounded-full px-3 py-1">
                       {p.badge}
                     </span>

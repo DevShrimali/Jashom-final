@@ -7,13 +7,13 @@ import gsap from "gsap";
    coordinates. Iso basis: u = (0.866, 0.5), v = (-0.866, 0.5). */
 
 const C = {
-  ink: "#18181C",
-  graphite: "#1E1E22",
-  paper: "#FFFFFF",
-  linen: "#F4F3EF",
-  tint: "#ECEAE4",
-  line: "#E4E3DE",
-  gray: "#9B9994",
+  ink: "var(--svg-ink)",
+  graphite: "var(--svg-graphite)",
+  paper: "var(--svg-paper)",
+  linen: "var(--svg-linen)",
+  tint: "var(--svg-tint)",
+  line: "var(--svg-line)",
+  gray: "var(--svg-gray)",
 };
 
 type Pt = [number, number];

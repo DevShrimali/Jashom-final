@@ -28,7 +28,7 @@ export default function Blog() {
     <section className="section" id="blog">
       <div className="container-j">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
-          <SplitHeading className="text-[clamp(2rem,4vw,3rem)] max-w-xl">
+          <SplitHeading className="text-[clamp(1.6rem,2.5vw,2.1rem)] max-w-xl">
             From the engineering desk
           </SplitHeading>
           <Reveal>
@@ -38,7 +38,7 @@ export default function Blog() {
           </Reveal>
         </div>
 
-        <Stagger className="grid md:grid-cols-3 gap-5" step={0.07}>
+        <Stagger className="grid md:grid-cols-3 gap-5" itemClassName="h-full" step={0.07}>
           {POSTS.map((p, i) => (
             <a key={p.title} href="#blog" className="card-neon group block p-7 h-full">
               <CardGlyph variant={(["doc", "wave", "memory"] as const)[i % 3]} />

@@ -106,18 +106,18 @@ export default function WhyJashom() {
   return (
     <section className="section" id="why">
       <div className="container-j">
-        <SplitHeading className="text-[clamp(2rem,4vw,3rem)] max-w-xl mb-14 md:mb-16">
+        <SplitHeading className="text-[clamp(1.6rem,2.5vw,2.1rem)] max-w-xl mb-14 md:mb-16">
           Why choose Jashom?
         </SplitHeading>
 
-        <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 border-t border-line" step={0.05}>
+        <Stagger className="grid sm:grid-cols-2 lg:grid-cols-3 border-t border-line" itemClassName="h-full" step={0.05}>
           {REASONS.map((r) => (
-            <div key={r.title} className="group py-8 pr-8 border-b border-line">
-              <span className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-tint text-ink mb-4 transition-transform duration-300 ease-out group-hover:-translate-y-0.5">
+            <div key={r.title} className="group h-full p-6 md:p-8 border-b border-line hover:bg-tint transition-all duration-300">
+              <span className="inline-flex items-center justify-center w-11 h-11 rounded-none bg-tint text-ink mb-4 transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:bg-linen">
                 <Icon name={r.icon} />
               </span>
-              <h3 className="font-sans font-medium text-[1.0625rem] text-ink mb-2">{r.title}</h3>
-              <p className="text-[0.9375rem] text-ink-2">{r.body}</p>
+              <h3 className="font-sans font-medium text-[1rem] text-ink mb-2">{r.title}</h3>
+              <p className="text-[0.875rem] text-ink-2">{r.body}</p>
             </div>
           ))}
         </Stagger>

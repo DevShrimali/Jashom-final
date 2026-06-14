@@ -39,7 +39,7 @@ export default function CaseStudies() {
     <section className="section" id="case-studies">
       <div className="container-j">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14 md:mb-16">
-          <SplitHeading className="text-[clamp(2rem,4vw,3rem)] max-w-xl">
+          <SplitHeading className="text-[clamp(1.6rem,2.5vw,2.1rem)] max-w-xl">
             Proof, in production
           </SplitHeading>
           <Reveal>
@@ -49,12 +49,12 @@ export default function CaseStudies() {
           </Reveal>
         </div>
 
-        <Stagger className="grid md:grid-cols-2 gap-5" step={0.07}>
+        <Stagger className="grid md:grid-cols-2 gap-5" itemClassName="h-full" step={0.07}>
           {CASES.map((c) => (
             <a key={c.title} href="#contact" className="card-neon group block p-7 md:p-9 h-full">
               <CardGlyph variant={c.glyph} />
               <p className="neon-meta text-[0.8125rem] text-ink-2 mb-5">{c.category}</p>
-              <h3 className="text-[1.45rem] md:text-[1.7rem] leading-snug mb-8 max-w-[24ch]">
+              <h3 className="text-[20px] leading-snug mb-8 max-w-none">
                 {c.title}
               </h3>
               <div className="flex flex-wrap items-center gap-2">

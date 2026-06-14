@@ -36,20 +36,15 @@ export default function Hero() {
   }, [reduced]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-svh flex flex-col overflow-clip">
-      {/* Faded grid + soft glow, radially masked toward the edges */}
+    <section ref={sectionRef} className="relative min-h-[85svh] flex flex-col overflow-clip">
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_right,rgba(17,17,19,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(17,17,19,0.05)_1px,transparent_1px)] bg-[size:44px_44px] [mask-image:radial-gradient(110%_90%_at_50%_30%,black,transparent)]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_-10%,rgba(24,24,28,0.06),transparent_60%)]"
+        className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_-10%,var(--radial-glow),transparent_60%)]"
         aria-hidden="true"
       />
 
       <div
         ref={contentRef}
-        className="container-j relative flex-1 grid lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] gap-12 items-center pt-32 pb-20"
+        className="container-j relative flex-1 grid lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] gap-12 items-center pt-32 pb-14"
       >
         <div className="flex flex-col justify-center">
         <motion.p
@@ -62,11 +57,11 @@ export default function Hero() {
           Next-Gen AI Solutions
         </motion.p>
 
-        <h1 className="text-[clamp(2.2rem,3.5vw,3.3rem)] leading-[1.1] max-w-[32ch]">
+        <h1 className="text-[clamp(1.6rem,2.5vw,2.1rem)] leading-[1.1] max-w-none">
           {HEADLINE.map((line, i) => (
             <span key={line} className="block overflow-clip">
               <motion.span
-                className="block"
+                className="block sm:whitespace-nowrap"
                 initial={{ transform: reduced ? "none" : "translateY(105%)" }}
                 animate={{ transform: "translateY(0%)" }}
                 transition={{ duration: 0.9, delay: 0.2 + i * 0.12, ease: [0.23, 1, 0.32, 1] }}
@@ -92,16 +87,18 @@ export default function Hero() {
           initial={{ opacity: 0, transform: reduced ? "none" : "translateY(16px)" }}
           animate={{ opacity: 1, transform: "translateY(0px)" }}
           transition={{ duration: 0.7, delay: 0.72, ease: [0.23, 1, 0.32, 1] }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          className="mt-10 flex flex-col gap-6"
         >
-          <Magnetic strength={0.18}>
-            <a href="#contact" className="btn btn-primary">
-              Start Your AI Transformation
+          <div className="flex flex-wrap items-center gap-4">
+            <Magnetic strength={0.18}>
+              <a href="#contact" className="btn btn-primary">
+                Start Your AI Transformation
+              </a>
+            </Magnetic>
+            <a href="#contact" className="btn btn-secondary">
+              Schedule a Meeting
             </a>
-          </Magnetic>
-          <a href="#contact" className="btn btn-secondary">
-            Schedule a Meeting
-          </a>
+          </div>
         </motion.div>
         </div>
 

@@ -28,16 +28,15 @@ export default function Testimonials() {
   return (
     <section className="section bg-paper border-y border-line" id="testimonials">
       <div className="container-j">
-        <SplitHeading className="text-[clamp(2rem,4vw,3rem)] max-w-xl mb-14 md:mb-20">
+        <SplitHeading className="text-[clamp(1.6rem,2.5vw,2.1rem)] max-w-xl mb-14 md:mb-20">
           What our clients say
         </SplitHeading>
 
-        {/* Staggered column offsets give the row an editorial rhythm */}
-        <div className="grid lg:grid-cols-3 gap-x-10 gap-y-14 lg:[&>*:nth-child(2)]:mt-10 lg:[&>*:nth-child(3)]:mt-20">
+        <div className="grid lg:grid-cols-3 gap-6 lg:[&>*:nth-child(2)]:mt-10 lg:[&>*:nth-child(3)]:mt-20">
           {QUOTES.map((q, i) => (
-            <Reveal key={q.name} delay={i * 0.08}>
-              <figure className="h-full flex flex-col">
-                <blockquote className="font-serif text-[1.35rem] md:text-[1.5rem] leading-[1.35] text-ink">
+            <Reveal key={q.name} delay={i * 0.08} className="h-full">
+              <figure className="h-full flex flex-col p-6 md:p-8 hover:bg-tint transition-all duration-300">
+                <blockquote className="font-mono text-[20px] leading-[1.4] text-ink flex-1">
                   &ldquo;{q.quote}&rdquo;
                 </blockquote>
                 <figcaption className="mt-6 pt-5 border-t border-line text-[0.9375rem]">
